@@ -4,42 +4,43 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
+/**
+ * Main class
+ */
 public class Reg extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static final int FRAME_X = 600;
-	private static final int FRAME_Y = 200;
+	public static final int FRAME_X = 600;
+	public static final int FRAME_Y = 200;
 	public static final int FRAME_WIDTH = 600;
 	public static final int FRAME_HEIGHT = 300;
 
 	
 	/**
-	 * 
+	 * Constracs the application frame
 	 * @throws HeadlessException
 	 */
 	public Reg() throws HeadlessException {
 		super("MySwing");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 		setBounds(FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT);
-		
-
-		add(new FormularPanel());
-
 		setResizable(false);
-		
+
+		add(new FormularPanel());	
 		setVisible(true); // Muss IMMER die LETZTE Zeile im Konstruktor sein.
 	}
 
 
 
+	/**
+	 * starts the program
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		new Reg();
-
+		// TODO
+//		SwingUtilities.invokeLater(Reg::new);
 	}
 
 }
