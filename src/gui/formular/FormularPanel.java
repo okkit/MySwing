@@ -1,0 +1,187 @@
+/**
+ * 
+ */
+package gui.formular;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import bl.Formular;
+import gui.DateTextField;
+import gui.MessageView;
+import gui.MyButton;
+import gui.MyCheckBox;
+import gui.MyLabel;
+import gui.MyPanel;
+import gui.MyTextField;
+import gui.Subpanel;
+import gui.TitleLabel;
+
+/**
+ * Represents the form for registration data.<br>
+ * The class holds (as fields) and manages all input components. The child
+ * components are (geometricly) distributed on different<br>
+ * panels (class Subpanel)
+ */
+public class FormularPanel extends MyPanel implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final String ACTION_RESET = "reset";
+	private static final String ACTION_SEND = "send";
+
+	private MyTextField textFieldName;
+	private DateTextField textFieldGeb;
+	MyCheckBox agreementCheckbox; // Muss angeklickt sein.
+	// Die Überprüfung, ob, findet in der bl statt. NICHT hier!
+	MyButton buttonReset;
+	MyButton buttonSend;
+	MessageView messageView;
+	private Formular form;
+
+	/**
+	 * Constructs a panel for registry form This panel has null-Layout therefore by
+	 * adding a component to the panel<br>
+	 * the bounds of this component have to be set explicitly
+	 */
+	public FormularPanel() {
+		super();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		messageView.setText(null);
+
+		if (e.getActionCommand().equals(ACTION_RESET)) {
+			resetInputFields();
+		} else if (e.getActionCommand().equals(ACTION_SEND)) {
+
+			send();
+		}
+	}
+
+	private void send() {
+
+		String err = checkInput();
+		if (err.isEmpty()) {
+			passOverToBL();
+		} else {
+			messageView.setText(err);
+		}
+	}
+
+	private boolean passOverToBL() {
+		form = new Formular();
+
+		form.setName(textFieldName.getText());
+		form.setBirthday(textFieldGeb.getDate());
+		form.setAgree(agreementCheckbox.isSelected());
+
+
+		form.save();
+	
+		return true;
+	}
+
+	@Override
+	protected void init() {
+
+		Subpanel p = initTitlePanel(6);
+		add(p);
+		initInputPanel(3);
+		add(initAgreementPanel(8));
+		initMessagePanel(6);
+		initButtonPanel(6);
+
+//		double sum = 1./5. + 1./3. + 1./4. + 1./5.;
+//		System.out.println("Summe der Höhen: " + sum);
+	}
+
+	/**
+	 * initializes the buttons.
+	 * 
+	 * @param factor Portion of the total frame height
+	 */
+	private void initButtonPanel(int factor) {
+		Subpanel p = new Subpanel(1, 2, factor);
+		buttonReset = new MyButton("Reset");
+		buttonReset.addActionListener(this);
+		buttonReset.setActionCommand(ACTION_RESET);
+		p.add(buttonReset);
+
+		buttonSend = new MyButton("Send");
+		buttonSend.addActionListener(this);
+		buttonSend.setActionCommand(ACTION_SEND);
+		p.add(buttonSend);
+		add(p);
+
+	}
+
+	private void initMessagePanel(int factor) {
+		Subpanel p = new Subpanel(1, 1, factor);
+		messageView = new MessageView(null); // null weil am Anfang IMMER leer
+		p.add(messageView);
+		add(p);
+
+	}
+
+	private void initInputPanel(int factor) {
+		Subpanel p = new Subpanel(0, 2, factor);
+
+		p.add(new MyLabel("Name*"));
+		textFieldName = new MyTextField();
+		p.add(textFieldName);
+
+		p.add(new MyLabel("Geburtsdatum°"));
+		textFieldGeb = new DateTextField();
+		p.add(textFieldGeb);
+
+		add(p);
+	}
+
+	private Subpanel initAgreementPanel(int factor) {
+		Subpanel p = new Subpanel(0, 1, factor);
+		agreementCheckbox = new MyCheckBox("Bin mit den Regeln einverstanden");
+		p.add(agreementCheckbox);
+		return p;
+	}
+
+	private Subpanel initTitlePanel(int factor) {
+		MyLabel label = new TitleLabel("Hallo hier in meiner ersten Swing-Anwendung");
+
+		Subpanel p = new Subpanel(1, 1, factor);
+		p.add(label);
+		return p;
+
+	}
+
+	/**
+	 * Validates all input
+	 * 
+	 * @return Message in case of error otherwise ""
+	 */
+	private String checkInput() {
+
+		String msg = "";
+
+		if (textFieldName.getText().trim().isEmpty()) {
+			msg += "Name fehlt\n" + "";
+		}
+
+		msg += textFieldGeb.check(); // liefert "", wenn keine Fehler
+
+		return msg;
+
+	}
+
+	/**
+	 * Clears all input fields
+	 */
+	private void resetInputFields() {
+		textFieldName.setText(null);
+		textFieldGeb.setText(null);
+	}
+
+}

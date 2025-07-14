@@ -4,6 +4,8 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
+import gui.formular.FormularPanel;
+
 /**
  * Main class
  */
@@ -12,7 +14,7 @@ public class Reg extends JFrame {
 	public static final int FRAME_X = 600;
 	public static final int FRAME_Y = 200;
 	public static final int FRAME_WIDTH = 600;
-	public static final int FRAME_HEIGHT = 300;
+	public static final int FRAME_HEIGHT = 380;
 
 	
 	/**

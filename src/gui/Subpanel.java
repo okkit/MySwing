@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  */
 public class Subpanel extends JPanel {
 
-	static int y = 5;
+	static int y = 0;
 
 	/**
 	 * Constructs a panel with grid layout.
@@ -27,14 +27,14 @@ public class Subpanel extends JPanel {
 
 	/**
 	 * Constructs a panel with grid layout. The panel height is calculated<br>
-	 * based on the height of the whole frame
+	 * based on the height of the whole frame - 40 px of the over bar
 	 * 
 	 * @param rows number of rows in the grid
 	 * @param cols number of columns in the grid
 	 */
 	public Subpanel(int rows, int cols, int factor) {
 		this(rows, cols);
-		int height = Reg.FRAME_HEIGHT / factor;
+		int height = (Reg.FRAME_HEIGHT - 40)/ factor;
 
 		setBounds(20, y, Reg.FRAME_WIDTH - 40, height);
 		y += height;
