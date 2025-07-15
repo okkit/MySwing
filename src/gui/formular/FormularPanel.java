@@ -3,6 +3,7 @@
  */
 package gui.formular;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -47,6 +48,96 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	 */
 	public FormularPanel() {
 		super();
+		setLayout(null);
+	}
+
+	@Override
+	protected void init() {
+
+		add(initTitlePanel(6));
+ 
+		Subpanel p = new Subpanel(60);
+		initGastPanel(p);
+		System.out.println(p);
+		add(p);
+		p = new Subpanel(40);
+		p.setBackground(Color.BLUE);
+//		initListPanel(p);
+		add(p);
+	}
+
+	private void initListPanel(Subpanel panel) {
+		panel.add(new Subpanel(0, 1));
+	}
+
+	private void initGastPanel(Subpanel panel) {
+		double width = panel.getSize().getWidth();
+		panel.add(initInputPanel(width, 3));
+		panel.add(initAgreementPanel(width, 8));
+		panel.add(initMessagePanel(width, 6));
+		panel.add(initButtonPanel(width, 6));
+		double sum = 1. / 5. + 1. / 3. + 1. / 4. + 1. / 5.;
+		System.out.println("Summe der Höhen: " + sum);
+
+	}
+
+	/**
+	 * initializes the buttons.
+	 * @param width 
+	 * 
+	 * @param factor Portion of the total frame height
+	 */
+	private Subpanel initButtonPanel(double width, int factor) {
+		Subpanel p = new Subpanel(1, 2, factor);
+		buttonReset = new MyButton("Reset");
+		buttonReset.addActionListener(this);
+		buttonReset.setActionCommand(ACTION_RESET);
+		p.add(buttonReset);
+
+		buttonSend = new MyButton("Send");
+		buttonSend.addActionListener(this);
+		buttonSend.setActionCommand(ACTION_SEND);
+		p.add(buttonSend);
+		return p;
+
+	}
+
+	private Subpanel initMessagePanel(double width, int factor) {
+		Subpanel p = new Subpanel(1, 1, factor);
+		messageView = new MessageView(null); // null weil am Anfang IMMER leer
+		p.add(messageView);
+		return p;
+
+	}
+
+	private Subpanel initInputPanel(double width, int factor) {
+		Subpanel p = new Subpanel(0, 2, factor);
+
+		p.add(new MyLabel("Name*"));
+		textFieldName = new MyTextField();
+		p.add(textFieldName);
+
+		p.add(new MyLabel("Geburtsdatum°"));
+		textFieldGeb = new DateTextField();
+		p.add(textFieldGeb);
+
+		return p;
+	}
+
+	private Subpanel initAgreementPanel(double width, int factor) {
+		Subpanel p = new Subpanel(0, 1, factor);
+		agreementCheckbox = new MyCheckBox("Bin mit den Regeln einverstanden");
+		p.add(agreementCheckbox);
+		return p;
+	}
+
+	private Subpanel initTitlePanel(int factor) {
+		MyLabel label = new TitleLabel("Hallo hier in meiner ersten Swing-Anwendung");
+
+		Subpanel p = new Subpanel(1, 1, factor);
+		p.add(label);
+		return p;
+
 	}
 
 	@Override
@@ -72,89 +163,16 @@ public class FormularPanel extends MyPanel implements ActionListener {
 		}
 	}
 
-	private boolean passOverToBL() {
+	private void passOverToBL() {
 		form = new Formular();
 
 		form.setName(textFieldName.getText());
 		form.setBirthday(textFieldGeb.getDate());
 		form.setAgree(agreementCheckbox.isSelected());
 
-
 		form.save();
-	
-		return true;
-	}
 
-	@Override
-	protected void init() {
-
-		Subpanel p = initTitlePanel(6);
-		add(p);
-		initInputPanel(3);
-		add(initAgreementPanel(8));
-		initMessagePanel(6);
-		initButtonPanel(6);
-
-//		double sum = 1./5. + 1./3. + 1./4. + 1./5.;
-//		System.out.println("Summe der Höhen: " + sum);
-	}
-
-	/**
-	 * initializes the buttons.
-	 * 
-	 * @param factor Portion of the total frame height
-	 */
-	private void initButtonPanel(int factor) {
-		Subpanel p = new Subpanel(1, 2, factor);
-		buttonReset = new MyButton("Reset");
-		buttonReset.addActionListener(this);
-		buttonReset.setActionCommand(ACTION_RESET);
-		p.add(buttonReset);
-
-		buttonSend = new MyButton("Send");
-		buttonSend.addActionListener(this);
-		buttonSend.setActionCommand(ACTION_SEND);
-		p.add(buttonSend);
-		add(p);
-
-	}
-
-	private void initMessagePanel(int factor) {
-		Subpanel p = new Subpanel(1, 1, factor);
-		messageView = new MessageView(null); // null weil am Anfang IMMER leer
-		p.add(messageView);
-		add(p);
-
-	}
-
-	private void initInputPanel(int factor) {
-		Subpanel p = new Subpanel(0, 2, factor);
-
-		p.add(new MyLabel("Name*"));
-		textFieldName = new MyTextField();
-		p.add(textFieldName);
-
-		p.add(new MyLabel("Geburtsdatum°"));
-		textFieldGeb = new DateTextField();
-		p.add(textFieldGeb);
-
-		add(p);
-	}
-
-	private Subpanel initAgreementPanel(int factor) {
-		Subpanel p = new Subpanel(0, 1, factor);
-		agreementCheckbox = new MyCheckBox("Bin mit den Regeln einverstanden");
-		p.add(agreementCheckbox);
-		return p;
-	}
-
-	private Subpanel initTitlePanel(int factor) {
-		MyLabel label = new TitleLabel("Hallo hier in meiner ersten Swing-Anwendung");
-
-		Subpanel p = new Subpanel(1, 1, factor);
-		p.add(label);
-		return p;
-
+		messageView.setText(form.getMsg());
 	}
 
 	/**

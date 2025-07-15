@@ -16,6 +16,10 @@ public class Formular {
 	private boolean agree = false;
 	String msg;
 
+	public String getMsg() {
+		return msg;
+	}
+
 	public Formular() {
 		super();
 	}
@@ -29,20 +33,27 @@ public class Formular {
 	/**
 	 * Pass over to db-tier
 	 */
-	public void save() {
+	public void save() { 
 
-//		validate(); // TODO falls falsch, muss das weitere verhindert werden
-		Gast gast = new Gast();
-		gast.setName(name);
-		gast.setBirthday(birthday);
-		gast.setAgree(agree);
-		gast.saveToDB();
+		if (validate()) {
+			Gast gast = new Gast();
+			gast.setName(name);
+			gast.setBirthday(birthday);
+			gast.setAgree(agree);
+
+			String err = gast.saveIntoDB();
+			if (err == null)
+				msg = SUCCESS_MSG;
+			else
+				msg = err;
+
+		}
 	}
 
 	public boolean validate() {
 
 		boolean ok = validateAgree();
-		ok &= validateBirthday();
+		ok &= validateBirthday();	
 		return ok;
 	}
 
