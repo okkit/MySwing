@@ -153,6 +153,7 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	private void send() {
 
 		String err = checkInput();
+		System.out.println(err);
 		if (err.isEmpty()) {
 			passOverToBL();
 		} else {
@@ -180,15 +181,16 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	private String checkInput() {
 
 		String msg = "";
+		StringBuilder sb = new StringBuilder(msg);
 
 		if (textFieldName.getText().trim().isEmpty()) {
-			msg += "Name fehlt\n" + "";
+			sb.append("Name fehlt\n");
 		}
 
-		msg += textFieldGeb.check(); // liefert "", wenn keine Fehler
+		sb.append(textFieldGeb.check()); // check() liefert "", wenn keine Fehler
 
-		return msg;
-
+		System.out.println(msg);
+		return sb.toString();
 	}
 
 	/**
