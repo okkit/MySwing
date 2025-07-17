@@ -51,13 +51,13 @@ public class Reg extends JFrame {
         handler.setLevel(Level.ALL);
         logger.addHandler(handler);
 
-        logger.severe("Schwerwiegender Fehler");
-        logger.warning("Warnung");
-        logger.info("Information");
-        logger.config("Konfigurationshinweis");
-        logger.fine("Fein");
-        logger.finer("Feiner");
-        logger.finest("Am feinsten");
+//        logger.severe("Schwerwiegender Fehler");
+//        logger.warning("Warnung");
+//        logger.info("Information");
+//        logger.config("Konfigurationshinweis");
+//        logger.fine("Fein");
+//        logger.finer("Feiner");
+//        logger.finest("Am feinsten");
 		// TODO
 //		SwingUtilities.invokeLater(Reg::new);
 	}

@@ -54,8 +54,6 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	@Override
 	protected void init() {
 
-		add(initTitlePanel(6));
- 
 		Subpanel p = new Subpanel(60);
 		initGastPanel(p);
 		System.out.println(p);
@@ -71,14 +69,13 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	}
 
 	private void initGastPanel(Subpanel panel) {
-		double width = panel.getSize().getWidth();
-		panel.add(initInputPanel(width, 3));
-		panel.add(initAgreementPanel(width, 8));
-		panel.add(initMessagePanel(width, 6));
-		panel.add(initButtonPanel(width, 6));
+		panel.add(initTitlePanel( 6));
+		panel.add(initInputPanel(3));
+		panel.add(initAgreementPanel(8));
+		panel.add(initMessagePanel(6));
+		panel.add(initButtonPanel(6));
 		double sum = 1. / 5. + 1. / 3. + 1. / 4. + 1. / 5.;
 		System.out.println("Summe der Höhen: " + sum);
-
 	}
 
 	/**
@@ -87,7 +84,7 @@ public class FormularPanel extends MyPanel implements ActionListener {
 	 * 
 	 * @param factor Portion of the total frame height
 	 */
-	private Subpanel initButtonPanel(double width, int factor) {
+	private Subpanel initButtonPanel(int factor) {
 		Subpanel p = new Subpanel(1, 2, factor);
 		buttonReset = new MyButton("Reset");
 		buttonReset.addActionListener(this);
@@ -102,7 +99,7 @@ public class FormularPanel extends MyPanel implements ActionListener {
 
 	}
 
-	private Subpanel initMessagePanel(double width, int factor) {
+	private Subpanel initMessagePanel(int factor) {
 		Subpanel p = new Subpanel(1, 1, factor);
 		messageView = new MessageView(null); // null weil am Anfang IMMER leer
 		p.add(messageView);
@@ -110,7 +107,7 @@ public class FormularPanel extends MyPanel implements ActionListener {
 
 	}
 
-	private Subpanel initInputPanel(double width, int factor) {
+	private Subpanel initInputPanel(int factor) {
 		Subpanel p = new Subpanel(0, 2, factor);
 
 		p.add(new MyLabel("Name*"));
@@ -124,7 +121,7 @@ public class FormularPanel extends MyPanel implements ActionListener {
 		return p;
 	}
 
-	private Subpanel initAgreementPanel(double width, int factor) {
+	private Subpanel initAgreementPanel( int factor) {
 		Subpanel p = new Subpanel(0, 1, factor);
 		agreementCheckbox = new MyCheckBox("Bin mit den Regeln einverstanden");
 		p.add(agreementCheckbox);

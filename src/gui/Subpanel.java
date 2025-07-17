@@ -33,7 +33,7 @@ public class Subpanel extends JPanel {
 	 */
 	public Subpanel(int percentOfWidth) {
 		super();
-		setLayout(null);//new GridLayout(1, 1));
+		setLayout(new GridLayout(0, 1));
 		setBackground(Color.WHITE);
 		int width = (int) (percentOfWidth * Reg.FRAME_WIDTH / 100.);
 
